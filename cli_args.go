@@ -31,7 +31,7 @@ type argContainer struct {
 	longnames, allow_other, reverse, aessiv, nonempty, raw64,
 	noprealloc, speed, hkdf, serialize_reads, hh, info,
 	sharedstorage, fsck, one_file_system, deterministic_names,
-	xchacha bool
+	xchacha, qrcode bool
 	// Mount options with opposites
 	dev, nodev, suid, nosuid, exec, noexec, rw, ro, kernel_cache, acl bool
 	masterkey, mountpoint, cipherdir, cpuprofile,
@@ -168,6 +168,7 @@ func parseCliOpts(osArgs []string) (args argContainer) {
 	flagSet.BoolVar(&args.plaintextnames, "plaintextnames", false, "Do not encrypt file names")
 	flagSet.BoolVar(&args.quiet, "q", false, "")
 	flagSet.BoolVar(&args.quiet, "quiet", false, "Quiet - silence informational messages")
+	flagSet.BoolVar(&args.qrcode, "qrcode", false, "Print master key as qrcode")
 	flagSet.BoolVar(&args.nosyslog, "nosyslog", false, "Do not redirect output to syslog when running in the background")
 	flagSet.BoolVar(&args.wpanic, "wpanic", false, "When encountering a warning, panic and exit immediately")
 	flagSet.BoolVar(&args.longnames, "longnames", true, "Store names longer than 175 bytes in extra files")
