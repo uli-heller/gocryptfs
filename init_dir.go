@@ -110,6 +110,7 @@ func initDir(args *argContainer) {
 			XChaCha20Poly1305:  args.xchacha,
 			LongNameMax:        args.longnamemax,
 			Masterkey:          handleArgsMasterkey(args),
+			QRCode:             args.qrcode,
 		})
 		if err != nil {
 			tlog.Fatal.Println(err)

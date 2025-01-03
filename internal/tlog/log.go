@@ -10,6 +10,8 @@ import (
 	"log/syslog"
 	"os"
 
+        "bytes"
+        "github.com/mdp/qrterminal/v3"
 	"golang.org/x/term"
 )
 
@@ -170,7 +172,7 @@ func SwitchLoggerToSyslog() {
 
 // PrintMasterkeyReminder reminds the user that he should store the master key in
 // a safe place.
-func PrintMasterkeyReminder(key []byte) {
+func PrintMasterkeyReminder(key []byte, qrcode bool) {
 	if !Info.Enabled {
 		// Quiet mode
 		return
@@ -192,7 +194,14 @@ func PrintMasterkeyReminder(key []byte) {
 			hChunked += "\n    "
 		}
 	}
-	Info.Printf(`
+
+        buf := new(bytes.Buffer)
+	if qrcode {
+	  buf.WriteString("\n\nQRCode:\n")
+	  qrterminal.Generate(hChunked, qrterminal.L, buf)
+	}
+
+Info.Printf(`
 Your master key is:
 
     %s
@@ -201,5 +210,5 @@ If the gocryptfs.conf file becomes corrupted or you ever forget your password,
 there is only one hope for recovery: The master key. Print it to a piece of
 paper and store it in a drawer. This message is only printed once.
 
-`, ColorGrey+hChunked+ColorReset)
+`, ColorGrey+hChunked+ColorReset+buf.String())
 }
