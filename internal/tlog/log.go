@@ -198,7 +198,16 @@ func PrintMasterkeyReminder(key []byte, qrcode bool) {
         buf := new(bytes.Buffer)
 	if qrcode {
 	  buf.WriteString("\n\nQRCode:\n")
-	  qrterminal.Generate(hChunked, qrterminal.L, buf)
+	  config := qrterminal.Config{
+	    Level: qrterminal.L,
+	    Writer: buf,
+	    BlackChar: qrterminal.BLACK_BLACK,
+	    WhiteChar: qrterminal.WHITE_WHITE,
+	    BlackWhiteChar: qrterminal.BLACK_WHITE,
+	    WhiteBlackChar: qrterminal.WHITE_BLACK,
+	    HalfBlocks: true,
+	  }
+	  qrterminal.GenerateWithConfig(hChunked, config)
 	}
 
 Info.Printf(`
