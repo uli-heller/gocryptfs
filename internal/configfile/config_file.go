@@ -77,6 +77,7 @@ type CreateArgs struct {
 	XChaCha20Poly1305  bool
 	LongNameMax        uint8
 	Masterkey          []byte
+	QRCode             bool
 }
 
 // Create - create a new config with a random key encrypted with
@@ -135,7 +136,8 @@ func Create(args *CreateArgs) error {
 			// Generate new random master key
 			key = cryptocore.RandBytes(cryptocore.KeyLen)
 		}
-		tlog.PrintMasterkeyReminder(key)
+
+		tlog.PrintMasterkeyReminder(key, args.QRCode)
 		// Encrypt it using the password
 		// This sets ScryptObject and EncryptedKey
 		// Note: this looks at the FeatureFlags, so call it AFTER setting them.
