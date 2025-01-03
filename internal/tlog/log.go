@@ -184,11 +184,14 @@ func PrintMasterkeyReminder(key []byte, qrcode bool) {
 	}
 	h := hex.EncodeToString(key)
 	var hChunked string
+	var hQrCode string
 	// Try to make it less scary by splitting it up in chunks
 	for i := 0; i < len(h); i += 8 {
 		hChunked += h[i : i+8]
+		hQrCode  += h[i : i+8]
 		if i < 52 {
 			hChunked += "-"
+			hQrCode  += "-"
 		}
 		if i == 24 {
 			hChunked += "\n    "
@@ -207,7 +210,7 @@ func PrintMasterkeyReminder(key []byte, qrcode bool) {
 	    WhiteBlackChar: qrterminal.WHITE_BLACK,
 	    HalfBlocks: true,
 	  }
-	  qrterminal.GenerateWithConfig(hChunked, config)
+	  qrterminal.GenerateWithConfig(hQrCode, config)
 	}
 
 Info.Printf(`
